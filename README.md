@@ -30,11 +30,12 @@ Number	Name	farmableSkillUps	Normal or Technical dungeons	Other dungeons
 
 Saving that to a string in Python and typing print myString.replace("\t", "\n") will split each thing up onto lines. E.g.:
 
->>> myString = myString = """Number	Name	farmableSkillUps	Normal or Technical dungeons	Other dungeons
+>>> myString = """Number	Name	farmableSkillUps	Normal or Technical dungeons	Other dungeons
 1330	Krishna	Flame Insect Dragon, Flammesickle	.	Herme Descended!, Fire Insect Dragon, Wood Guardian Dragon
 1336	Ganesha	Entrepreneur, Lex Luthor && Genius Scientist, Lex Luthor	.	Batman vs Superman Collab"""
 
 >>> print myString.replace("\n", '\n-----\n').replace("\t", "\n")
+
 Number
 Name
 farmableSkillUps
