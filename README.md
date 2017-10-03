@@ -1,5 +1,7 @@
 "# PADx-Skill-Scraper" 
 
+NOTE: README is much more legible in RAW form...
+
 Right now, needs to be run in a python interpreter so you can call the two main functions:
 
 listMySkillInfo(cardNumList, dungeonsToExclude)
@@ -7,10 +9,10 @@ and
 checkForAvailableSkillups(normallyExcluded, alwaysInCoin, fullCardReportStr)
 
 ------------------------------------------ listMySkillInfo(cardNumList, dungeonsToExclude):
-cardNumList = Python list of numbers of the mosnters you're interested in sklling up. E.g. [[1, 2, 3, 3000].
+cardNumList = Python list of numbers of the mosnters you're interested in skilling up. E.g. [[1, 2, 3, 3000].
 dungeonsToExclude = Python list of words. It will ignore any dungeon that has one of these words in its name.
 	Suggested: dToE, which is ["Challenge", "Tournament"]
-
+	
 This function will output a tab-delimited list of information. I usually view it in microsoft excel. 
 
 Example use:
