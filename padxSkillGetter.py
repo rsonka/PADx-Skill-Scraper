@@ -377,7 +377,6 @@ def listMySkillInfo(cardNumList, dungeonsToExclude):
         
         
 
-# THis should go in functions to Call
 # Currently, this DOES NOT manually check Challenge, Tournament for skillups.
 # Note: throwing out 'Challenge' does hit a few real dungeons, I think.
 def checkForAvailableSkillups(normallyExcluded, alwaysInCoin, fullCardReportStr):
