@@ -9,16 +9,21 @@ and
 checkForAvailableSkillups(normallyExcluded, alwaysInCoin, fullCardReportStr)
 
 ------------------------------------------ listMySkillInfo(cardNumList, dungeonsToExclude):
+
 cardNumList = Python list of numbers of the mosnters you're interested in skilling up. E.g. [[1, 2, 3, 3000].
+
 dungeonsToExclude = Python list of words. It will ignore any dungeon that has one of these words in its name.
 	Suggested: dToE, which is ["Challenge", "Tournament"]
 	
 This function will output a tab-delimited list of information. I usually view it in microsoft excel. 
 
 Example use:
+
 >> listMySkillInfo([1330, 1336], dToE)
+
 (Program runs, outputting some debugging info so you know it's doing something...)
 Eventual output: 
+
 Number	Name	farmableSkillUps	Normal or Technical dungeons	Other dungeons
 1330	Krishna	Flame Insect Dragon, Flammesickle	.	Herme Descended!, Fire Insect Dragon, Wood Guardian Dragon
 1336	Ganesha	Entrepreneur, Lex Luthor && Genius Scientist, Lex Luthor	.	Batman vs Superman Collab
@@ -50,10 +55,13 @@ Batman vs Superman Collab
 
 
 ------------------------------------------ checkForAvailableSkillups(normallyExcluded, alwaysInCoin, fullCardReportStr)
+
 normallyExcluded = what you put on dungeonsToExclude when making the cardReport. 
 	Not relevant yet, but eventually may check if any of those kinds of dungeons are available.
+	
 alwaysInCoin = list of coin dungeons that you don't want to be told about (presumably because they're always there.).
 	A global variable named "alwaysInCoin" lists the level-up mechanics dungeons.
+	
 fullCardReportString = Python string containing the cardReport you got as output of listMySkillInfo. 
 	Will ignore all lines that don't begin with a number, so feel free to annotate it.
 	
@@ -61,7 +69,9 @@ This function reports what cards in your cardReport have farmable skillups from 
 dungeons, again tab-delimited.
 
 Example use: (remember "myString" from above?):
+
 >>> checkForAvailableSkillups(dToE, alwaysInCoin, myString) 
+
 CardNum	CardName	DungeonsAvailable
 1330	Krishna	Fire Insect Dragon
 
