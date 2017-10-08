@@ -384,7 +384,7 @@ def fetchSettings():
     settings = {}
     inText = attemptFileRead("PADskillGetterSettings.txt")
     if inText:
-        lines = inText.split("\n")
+        lines = inText.split(os.linesep)
         for line in lines:
             splitty = line.split(" = ")
             if len(splitty) == 2:
@@ -404,27 +404,27 @@ def attemptFileWrite(filename, text):
 def readMonsterNumFile(text):
     commentedNumbers = ""
     cardNums = []
-    lines = text.split("\n")
+    lines = text.split(os.linesep)
     for line in lines:
         if line and line[0] == "#":
-            commentedNumbers += line + "\n"
+            commentedNumbers += line + os.linesep
         else:
             try:
                 num = int(re.match(r'\d+', line).group())
                 cardNums.append(num)
-                commentedNumbers += str(num) + "\n"
+                commentedNumbers += str(num) + os.linesep
             except AttributeError:
                 pass
     return (commentedNumbers, cardNums)
             
 def constructCardReportFile(commentedNumbers, cardNums, cardLines):
     report = "Number\tName\tfarmableSkillUps\tNormal or Technical dungeons\tOther dungeons\n"
-    lines = commentedNumbers.split("\n")
+    lines = commentedNumbers.split(os.linesep)
     for line in lines:
         if line and line[0] == "#":
-            report += line + "\n"
+            report += line + os.linesep
         elif line: 
-            report += cardLines[cardNums.index(int(line))] + "\n"
+            report += cardLines[cardNums.index(int(line))] + os.linesep
     return report
     
 
@@ -432,15 +432,15 @@ def readCardReportFile(text):
     commentedNumbers = ""
     cardNums = []
     myCardLines = []
-    lines = text.split("\n")
+    lines = text.split(os.linesep)
     for line in lines:
         if line and line[0] == "#":
-            commentedNumbers += line + "\n"
+            commentedNumbers += line + os.linesep
         else:
             try:
                 num = int(re.match(r'\d+', line).group())
                 cardNums.append(num)
-                commentedNumbers += str(num) + "\n"
+                commentedNumbers += str(num) + os.linesep
                 myCardLines.append(line)
             except AttributeError:
                 pass
@@ -449,12 +449,12 @@ def readCardReportFile(text):
  
 def constructAvailableSkillupsFile(commentedNumbers, cardNums, cardLines):
     report = "CardNum\tCardName\tDungeonsAvailable\n"
-    lines = commentedNumbers.split("\n")
+    lines = commentedNumbers.split(os.linesep)
     for line in lines:
         if line and line[0] == "#":
-            report += line + "\n"
+            report += line + os.linesep
         elif line and int(line) in cardNums: 
-            report += cardLines[cardNums.index(int(line))] + "\n"
+            report += cardLines[cardNums.index(int(line))] + os.linesep
     return report
 
     
@@ -634,6 +634,8 @@ def mainMenu():
             print mainMenuString
         elif choice in ["help", "info", "man", "instructions", "information", "idk"]:
             print helpString
+        elif choice in ["quit", "q", "done"]:
+            return 1
         else:
             print "Unrecognized command! Type 'help' for more info."
     return 1   

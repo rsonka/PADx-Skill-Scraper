@@ -39,6 +39,8 @@ IMPORTANT NOTES
  
 2. If you do not have python, Windows users can run the program using padxSkillGetter.exe under the dist folder.
 
+3. I typically view the results by pasting into excel.
+
 DISCLAIMERS:
 
 big disclaimer:
