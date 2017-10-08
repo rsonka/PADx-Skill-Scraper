@@ -1,0 +1,18 @@
+Number	Name	farmableSkillUps	Normal or Technical dungeons	Other dungeons
+# Red
+2901	Awoken Cao Cao		.	.
+# Blue
+2385	Divine Galaxy Goddess, Nut	Blue DeviNyan	.	Gainaut Descended!, Water Carnival, Water Cat Dragon
+222	Siegfried, the Blue Champion	King Siegfried, Blue Champion && ãã«ã ã³ã¯ && è£ç ´é¾çå¸ã»ã°ã©ã³ãã¸ã¼ã¯ããªã¼ã && Marin && Dragon Emperor, Buster Siegfried && Earth-Rending Emperor, Siegfried && Berserk && Siegfried, the Blue Champion	The Heroes' Hideout, Alt. Creek of Neleus	Multiplayer Descended Rush!, Ultimate Descended Rush!, Indian Gods-Awakening Materials!, Zeus Vulcan Descended!, Athena Descended!, Zeus-Dios Descended!, Hero Descended!, Awakening Materials Selection!, Poring Tower, RO ACE Collab
+# Green
+2323	Awoken Susano no Mikoto	Blue Earth Armor Dragon, Caph	.	Machine Athena Descended!, Machine Zeus Descended!
+651	Awoken Zeus-Dios	Rich Bowl Dragon, Katsumin && Hera-Beorc && Awoken Hera-Beorc && Zeus-Dios && Awoken Zeus-Dios && Almighty Awoken Zeus-Dios	.	Ultimate God Rush!, Ultimate Zeus Rush!, Multiplayer Descended Rush!, Ultimate Hera Rush!, Green Bowl Dragon, Ultimate Descended Rush!, Greco-Roman Gods-Awakening Materials! 1, Zeus-Dios Descended!, Ultimate God Rush!, Awakening Materials Selection!, Hera-Beorc Descended!, Ultimate Hera Rush!
+# Light
+1289	Patricia & Valkyrie	Valkyrie && Great Valkyrie && Princess Valkyrie && ã´ã¡ã«ã­ãªã¼ãã¬ã¤ãï¼èèã®ç½ç¾ && Warrior Rose, Graceful Valkyrie && Drops && AB Yellow Bird Chuck && Divine Law Goddess, Valkyrie Rose	Alt. Aither Desert	Multiplayer Descended Rush!, Ultimate Descended Rush!, The Goddess Descended!, Aegir Descended!, Poring Tower, RO ACE Collab, Angry Birds Collab
+3534	Holy War Mediator, Metatron	DD-Guardian && DD-Arch Guardian && Voice of God, Metatron TAMADRA && Yellow Chaser && Lightning Chaser	Pirate Dragon's Hidden Grotto, Domain of the War Dragons, Mechdragons' Massive Fortress, Legendary Skyway	Machine Hera Descended!, Rare Monster Infestation!, Thoth & Sopdet Descended!, Noble Mechdragon, Gold Pirate Dragon, Light Carnival, Lightseeker, Mechdragon Rush!, Wood & Thunder Armored Dragons, Fire & Light Armored Dragons, Dragon's Dogma Collab, Nightmare Street
+# Dark
+813	Yomi God, Izanami	Pacifying Yomi Goddess, Izanami && Moon Kettle Bowl Dragon, Hagamar && Yomi Mistress, Izanami && Yomi God, Izanami	.	Ultimate Yamato Rush, Multiplayer Descended Rush!, Shuten-doji Descended!, Black Bowl Dragon, Ultimate Descended Rush!, Japanese Gods-Awakening Materials! 1, Izanami Descended!, Ultimate Yamato Rush, Awakening Materials Selection!
+1627	Dimensional Sorcerer, Chester	Ultimate Lifeform, Doomsday && Beach CafÃ© Waitress, High Water Ninja	.	DC Universe Collab, PAD Island
+2194	Evil Eye CyberBeast, Kakkab	Dark Gear	Legendary Remains	Machine Athena Descended!, Machine Zeus Descended!, Machine Hera Descended!, Ancient Lightning & Ocean Dragons, Indigo Descended!, Water & Dark Armored Dragons
+# only lines that begin with a number will be considered. Lines with # will be retained.
+# Monsters will be processed in order entered.
