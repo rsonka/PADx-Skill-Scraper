@@ -1,0 +1,4 @@
+# Settings
+# Lines that begin with '#' will be ignored.
+dungeonsToExclude = ['Challenge', 'Tournament', 'Quest Dungeon']
+alwaysInCoin = ['Gungho Collab', 'Nordis Descended', 'Gainaut Descended!', 'Volsung Descended!', 'Scarlet Descended!', 'Linthia Descended!', 'Myr Descended!']

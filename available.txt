@@ -1,0 +1,15 @@
+CardNum	CardName	DungeonsAvailable
+# Red
+# Blue
+2385	Divine Galaxy Goddess, Nut	Gainaut Descended!
+222	Siegfried, the Blue Champion	Multiplayer Descended Rush!, Ultimate Descended Rush!
+# Green
+651	Awoken Zeus-Dios	Ultimate God Rush!, Multiplayer Descended Rush!, Ultimate Hera Rush!, Ultimate Descended Rush!
+# Light
+1289	Patricia & Valkyrie	Multiplayer Descended Rush!, Ultimate Descended Rush!
+3534	Holy War Mediator, Metatron	Mechdragon Rush!
+# Dark
+813	Yomi God, Izanami	Ultimate Yamato Rush, Multiplayer Descended Rush!, Ultimate Descended Rush!
+1627	Dimensional Sorcerer, Chester	PAD Island
+# only lines that begin with a number will be considered. Lines with # will be retained.
+# Monsters will be processed in order entered.

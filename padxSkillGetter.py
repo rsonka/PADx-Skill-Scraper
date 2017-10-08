@@ -1,9 +1,11 @@
-import requests, os, time, copy, re
+import requests, os, time, copy, re, codecs, ast
 from bs4 import BeautifulSoup
 
 
 
 """
+HAS A README!
+
 right now does not check if your monster changes skill on evolution. Assumes you want skillups for that skill.
 Needs to remind users to check which parts of the dungeon can drop the monster---does not currently catalog this.
 ONly considers monsters "farmable" if they drop from a dungeon. Gungho collab PEM is not considered farmable here.
@@ -17,6 +19,8 @@ templateNumber = 100000
 
 
 s = requests.Session()
+
+
 
 
 # DEBUG STUFF =================================
@@ -46,6 +50,20 @@ def debugPrint(text):
             print text
 
 # Non-debug functions ===============================:
+
+# An important Data packet ====================
+
+class CardInfo:
+    # num, name, farmableSkillMons, skillupDungeons, report
+    def __init__(self, cardNum, cardName, farmableSkillMons, skillupDungeons):
+        self.num = cardNum
+        self.name = cardName
+        self.farmableSkillMons = farmableSkillMons
+        self.skillupDungeons = skillupDungeons
+        if type(farmableSkillMons) == type({}):
+            self.report = cardReport(cardNum, cardName, farmableSkillMons, skillupDungeons)
+        else:
+            self.report = "not set"
 
 # PADX Page reading: =====================
 
@@ -197,8 +215,8 @@ def getSkillInfo(cardNum, dungeonsToExclude):
             farmableSkillMons[mon] = sameSkillMons[mon]
     linePrint("farmableSkillMons: " + str(farmableSkillMons))
     linePrint("skillupDungeons: " + str(skillupDungeons))
-    packed = (cardNum, cardName, farmableSkillMons, skillupDungeons)
-    return packed
+    repo = CardInfo(cardNum, cardName, farmableSkillMons, skillupDungeons)
+    return repo
 
 
 # THis is more for checking things!
@@ -286,20 +304,16 @@ def monstersDroppedInDungeon(link):
 
             
             
-            
-    
-    
-    
-    #for line in myCardLines:  
-    # TODO!!!
 
-
+        
+        
 # Formatting =============================================
 
 def cardReport(cardNum, cardName, farmableSkillMons, skillupDungeons):
     # "Number\tName\tfarmableSkillUps\tNormal or Technical dungeons\tOther dungeons"
     cardLine = str(cardNum) + "\t" + cardName
     cardLine += "\t" + " && ".join(farmableSkillMons.values()) # Many card names have commas in them...
+    #cardLine += "\t" + " && ".join(farmableSkillMons) # Many card names have commas in them...
     normTech = skillupDungeons['normal'] + skillupDungeons['technical']
     if len(normTech):
         cardLine += "\t" + ", ".join(normTech) # I haven't seen a dungeon name that has a comma in it yet.
@@ -321,16 +335,17 @@ def isInt(string):
         return True
     except ValueError:
         return False
+
         
 def readCardReport(reportStr):
     # "Number\tName\tfarmableSkillUps\tNormal or Technical dungeons\tOther dungeons"
     # packed = (cardNum, cardName, farmableSkillMons, skillupDungeons)
     splits = reportStr.split('\t')
+    if not isInt(splits[0]):
+        return "" # THis was a comment-line    
     if len(splits) < 5:
         print "Warning: card report in wrong format!" # Not debug print. People need to know about this.
         return ""
-    if not isInt(splits[0]):
-        return "" # THis was a comment-line
     cardNum = int(splits[0])
     cardName = splits[1]
     farmableSkillMons = splits[2].split(" && ")
@@ -339,20 +354,108 @@ def readCardReport(reportStr):
     skillupDungeons['normal'] = splits[3].split(", ")
     skillupDungeons['other'] = splits[4].split(", ")
     debugPrint((cardNum, cardName, farmableSkillMons, skillupDungeons))
-    return (cardNum, cardName, farmableSkillMons, skillupDungeons)
-    
+    repo = CardInfo(cardNum, cardName, farmableSkillMons, skillupDungeons)
+    #return (cardNum, cardName, farmableSkillMons, skillupDungeons)
+    return repo
 
+   
+"""
 def cardReport2(packed):
     # packed = (cardNum, cardName, farmableSkillMons, skillupDungeons)
     # "Number\tName\tfarmableSkillUps\tNormal or Technical dungeons\tOther dungeons"
     (cardNum, cardName, farmableSkillMons, skillupDungeons) = packed
     return cardReport(cardNum, cardName, farmableSkillMons, skillupDungeons)
+"""
 
 
 
 
-        
+# Input / output =========================================            
     
+def attemptFileRead(filename):
+    try:
+        infile = codecs.open(filename, 'r', encoding='utf-8')
+        return infile.read() #.encode('utf-8')
+    except IOError:
+        print "Could not read input file: " + filename
+        return ""   
+
+def fetchSettings():
+    settings = {}
+    inText = attemptFileRead("PADskillGetterSettings.txt")
+    if inText:
+        lines = inText.split("\n")
+        for line in lines:
+            splitty = line.split(" = ")
+            if len(splitty) == 2:
+                settings[splitty[0]] = splitty[1]
+    return settings
+                
+        
+def attemptFileWrite(filename, text):
+    try:
+        outfile = codecs.open(filename, 'w', encoding='utf-8')
+        #outfile = open(filename, 'w')
+        outfile.write(text) # .decode('utf-8') ?
+    except IOError:
+        print "Could not write to file: " + filename
+        return ""     
+
+def readMonsterNumFile(text):
+    commentedNumbers = ""
+    cardNums = []
+    lines = text.split("\n")
+    for line in lines:
+        if line and line[0] == "#":
+            commentedNumbers += line + "\n"
+        else:
+            try:
+                num = int(re.match(r'\d+', line).group())
+                cardNums.append(num)
+                commentedNumbers += str(num) + "\n"
+            except AttributeError:
+                pass
+    return (commentedNumbers, cardNums)
+            
+def constructCardReportFile(commentedNumbers, cardNums, cardLines):
+    report = "Number\tName\tfarmableSkillUps\tNormal or Technical dungeons\tOther dungeons\n"
+    lines = commentedNumbers.split("\n")
+    for line in lines:
+        if line and line[0] == "#":
+            report += line + "\n"
+        elif line: 
+            report += cardLines[cardNums.index(int(line))] + "\n"
+    return report
+    
+
+def readCardReportFile(text):
+    commentedNumbers = ""
+    cardNums = []
+    myCardLines = []
+    lines = text.split("\n")
+    for line in lines:
+        if line and line[0] == "#":
+            commentedNumbers += line + "\n"
+        else:
+            try:
+                num = int(re.match(r'\d+', line).group())
+                cardNums.append(num)
+                commentedNumbers += str(num) + "\n"
+                myCardLines.append(line)
+            except AttributeError:
+                pass
+    return (commentedNumbers, cardNums, myCardLines)
+     
+ 
+def constructAvailableSkillupsFile(commentedNumbers, cardNums, cardLines):
+    report = "CardNum\tCardName\tDungeonsAvailable\n"
+    lines = commentedNumbers.split("\n")
+    for line in lines:
+        if line and line[0] == "#":
+            report += line + "\n"
+        elif line and int(line) in cardNums: 
+            report += cardLines[cardNums.index(int(line))] + "\n"
+    return report
 
     
 
@@ -360,43 +463,53 @@ def cardReport2(packed):
 # michael is 624
 #cardNum = 1099
 
+
+    
+    
 # Sample dungeonsToExclude: (these are not useful for visual checking)
-dToE = ['Challenge', 'Tournament']
+dungeonsToExclude = ['Challenge', 'Tournament', 'Quest Dungeon']
 alwaysInCoin = ['Gungho Collab', 'Nordis Descended', 'Gainaut Descended!', 'Volsung Descended!', 'Scarlet Descended!', 'Linthia Descended!', 'Myr Descended!']
 
-def listMySkillInfo(cardNumList, dungeonsToExclude):
+def calcCardNumLines(cardNumList, dungeonsToExclude):
     '''It will exclude any dungeons that have a word in their name that is in
     the dungeonsToExclude list. This is useful if you want to look at the list,
     because otherwise you get a billion challenge dungeons.'''
     myCardLines = []
     for num in cardNumList:
-        myCardLines.append(cardReport2(getSkillInfo(num, dungeonsToExclude)))
+        myCardLines.append(getSkillInfo(num, dungeonsToExclude).report)
+    return myCardLines
+
+def listMySkillInfo(cardNumList, dungeonsToExclude):
+    '''It will exclude any dungeons that have a word in their name that is in
+    the dungeonsToExclude list. This is useful if you want to look at the list,
+    because otherwise you get a billion challenge dungeons.'''
+    myCardLines = calcCardNumLines(cardNumList, dungeonsToExclude)
     print "Number\tName\tfarmableSkillUps\tNormal or Technical dungeons\tOther dungeons"
     for cardLine in myCardLines:
         print cardLine.encode('utf-8')
         
+    
         
+# CardInfo: num, name, farmableSkillMons, skillupDungeons, report
 
 # Currently, this DOES NOT manually check Challenge, Tournament for skillups.
 # Note: throwing out 'Challenge' does hit a few real dungeons, I think.
-def checkForAvailableSkillups(normallyExcluded, alwaysInCoin, fullCardReportStr):
+def calcAvailableSkillups(normallyExcluded, alwaysInCoin, lines):
     # Assumes that you don't want to be reminded of normal/technical dungeon skillups.
     # ignores any line that does not begin with a number.
     # normallyExcluded is usually ['Challenge', 'Tournament']. It tells the function to 
     # check any dungeon with this word in the name manually for skillups, instead 
     # of just checking dungeon name against input list.
     # alwaysInCoin tells it to exclude coin dungeons with that exact name.
-    lines = fullCardReportStr.split('\n')
     # technically "my card lines with dungeons other than normal or technical dungeons": NOPE: not assuming you include temp dungeons in your list!
     # However, am assuming it knows all farmable skillup cards. So it is "myCardLines that have farmable skillups".
     myCardLines = [] 
     for line in lines:
-        packed = readCardReport(line)
-        if packed and len(packed[2])> 0: # Is a real card line and Has farmable skillups.
-            myCardLines.append(packed)
+        repo = readCardReport(line)
+        if repo and len(repo.farmableSkillMons)> 0: # Is a real card line and Has farmable skillups.
+            myCardLines.append(repo) 
     urgentCards   = {} # urgentCards[cardnum] = [urgent dungeons with skillups]    
     coinDungeons = retrieveCoinDungeons(alwaysInCoin) # We want to test if coin dungeon...
-    
     frontDungeons = retrieveFrontPageSpecialDungeons()
     tempDungeons = retrieveCoinDungeons(alwaysInCoin)
     # Now Add in the front page, overwriting any coin dungeon ref to same dungeon, 
@@ -412,58 +525,167 @@ def checkForAvailableSkillups(normallyExcluded, alwaysInCoin, fullCardReportStr)
                 # MAKE THAT DO SOMETHING: TODO
         for card in myCardLines:
             if checkDrops:
-                x = 1 # Just to put something here for now...
+                pass # Just to put something here for now...
             else:
-                for key in card[3]:
-                    if dng in card[3][key]:
-                        name = dng
+                for key in card.skillupDungeons:
+                    if dng in card.skillupDungeons[key]:
+                        #name = dng
                         #if dng in coinDungeons and not dng in frontDungeons:
                         #    name = "Coin: " + dng                        
-                        if card[0] in urgentCards:
-                            urgentCards[card[0]].append(name)
+                        if card.num in urgentCards:
+                            urgentCards[card.num].append(dng)
                         else:
-                            urgentCards[card[0]] = [name]
-    print "reminder: Dungeons come from today's Special Dungeons, or the Coin Dungeons"
-    print "CardNum\tCardName\tDungeonsAvailable"
+                            urgentCards[card.num] = [dng]
+    cardNumsToReturn = []
+    cardLinesToReturn = []
     for card in myCardLines:
-        if card[0] in urgentCards:
-            print str(card[0]) + "\t" + card[1] + "\t" + ", ".join(urgentCards[card[0]])
+        if card.num in urgentCards:
+            cardNumsToReturn.append(card.num)
+            line = str(card.num) + "\t" + card.name + "\t" + ", ".join(urgentCards[card.num])
+            cardLinesToReturn.append(line) #.decode('utf-8')
+    return (cardNumsToReturn, cardLinesToReturn)
 
+
+
+
+def checkForAvailableSkillups(normallyExcluded, alwaysInCoin, fullCardReportStr):
+    print "reminder: Dungeons come from today's Special Dungeons, or the Coin Dungeons"
+    print "CardNum\tCardName\tDungeonsAvailable"   
+    lines = fullCardReportStr.split('\n')
+    (cardNumsToReturn, cardLinesToReturn) = calcAvailableSkillups(normallyExcluded, alwaysInCoin, lines)
+    for line in cardLinesToReturn:
+        print line
+
+
+    
+helpString = """
+(<> indicate mandatory arguments, in order. [] indicate optional arguments. 
+Do not include the "<>" or "[]".)
+Main menu options:
+1. listMySkillInfo <inputFile> <outputFile> [-dteS] 
+    Takes a file <inputFile> with lines beginning with monsternums, and
+    possibly other things after the monsternum. Lists skillup monsters and 
+    skillup dungeons for that monster in <outputFile> (may be same file. 
+    Will also preserve lines beginning with #.), by scraping PADX. 
+    If dteS is included, does not include dungeons with names that contain any of 
+    the words listed in the dungeonsToExclude setting under 
+    PADskillGetterSettings.txt.  Example usage:
+       listMySkillInfo monsters.txt monsters.txt -dteS
+2. checkForTempSkillups <skillInfoInputFile> <outputFile> [-cteS]
+    Takes a file <skillInfoInputFile> that was generated by listMySkillInfo.
+    Scrapes PADX to see if any of the dungeons listed as skillups in that file
+    are currently available in the 'special' or the 'coin' sections. If -cteS
+    is included, does not report dungeons in the 'coin' section that have names
+    that contain any of the words listed in the alwaysInCoin setting in 
+    PADskillGetterSettings.txt. Example usage:
+       checkForTempSkillups monsters.txt availableToday.txt -cteS
+3. help
+   Can also use info or man.
+4. quit
+   Ends the program.  Can also use done.
+"""    
+    
+mainMenuString = """ Main menu ---------------------------------
+(<> indicate mandatory arguments. [] indicate optional arguments. 
+Do not include the "<>" or "[]".)
+Please enter one of the following (ex: "help" with no ""). 
+1. listMySkillInfo <inputFile> <outputFile> [-dteS]
+2. checkForTempSkillups <skillInfoInputFile> <outputFile> [-cteS]
+3. help 
+4. menu
+5. quit"""
+def mainMenu():
+    """Scrapes PADX monster skills."""
+    settings = fetchSettings()
+    choice = ''
+    message = ''
+    print mainMenuString
+    allPages = []
+    # The loop
+    while not (choice == 'quit' or choice == 'done'):
+        print message
+        message = ""
+        choice = raw_input("[Main] Command: ") 
+        args = choice.split(' ') 
+        if args[0] == "listMySkillInfo" or args[0].lower() == "listmyskillinfo":
+            if len(args) >= 3:
+                inText = attemptFileRead(args[1])
+            if inText:
+                (commentedNumbers, cardNums) = readMonsterNumFile(inText) 
+                dToE = []
+                if "-dteS" in args:
+                    dToE = ast.literal_eval(settings["dungeonsToExclude"])
+                    print "dungeons to exclude: " + str(dToE)
+                cardLines = calcCardNumLines(cardNums, dToE)
+                attemptFileWrite(args[2], constructCardReportFile(commentedNumbers, cardNums, cardLines))               
+        elif args[0] == "checkForTempSkillups":
+            if len(args) >= 3:
+                inText = attemptFileRead(args[1])
+            if inText:
+                (commentedNumbers, cardNums, myCardLines) = readCardReportFile(inText)
+                cToE = []
+                if "-cteS" in args:
+                    cToE = ast.literal_eval(settings["alwaysInCoin"])
+                    print "always in coin: " + str(cToE)
+                (cardNumsToReturn, cardLinesToReturn) = calcAvailableSkillups([], cToE, myCardLines)
+                attemptFileWrite(args[2], constructAvailableSkillupsFile(commentedNumbers, cardNumsToReturn, cardLinesToReturn))
+        elif choice == "menu":
+            print mainMenuString
+        elif choice in ["help", "info", "man", "instructions", "information", "idk"]:
+            print helpString
+        else:
+            print "Unrecognized command! Type 'help' for more info."
+    return 1   
+
+
+
+
+mainMenu()
 
 # SCRATCH: rejected code that may yet someday be useful ===========
 
+"""
+[-dte space-separated toExclude]
+If -dte
+    is included, does the same using words entered, space-delimited, after the
+    -dte.
+
+
+according to format in PADskillGetterSettings.txt,
+"""
+
 
 # From retrieveFrontPageSpecialDungeons() ==================
-    """
-    dungeonRE = re.compile('<tr><td class="eventdate"><span class="brown">(?P<sMonth>\d{2})/(?P<sDay>\d{2}) (?P<sHour>\d{2}):(?P<sMin>\d{2})</span>') #<br>(?P<endDate>.*)
-    dungeonRE = re.compile('<tr><td class="eventdate"><span class="brown">(?P<sDate>\d{2}/\d{2} \d{2}:\d{2})</span>') #<br>(?P<endDate>.*)
-    
-    allDungeons =  re.finditer(dungeonRE, text)
-        for dung in allDungeons:
-            debugPrint(dung.groups())
-            
-        #dungeonRE = re.compile('<tr><td class="eventdate"><span class="brown">(?P<sMonth>.*)</span><br>(?P<endDate>.*)
-    """
-    # This may one day be more flexible, but probably not worth.
-    """
-    daysTextRaw = text.split('<div class="dateseparator">') 
-    daysTextClean = [] 
-    for rawDay in daysTextRaw:
-        # Date Name, cleanText
-        dayName = rawDay[:rawDay.index("</div>")] # NOte: may be blank
-        cleanText = rawDay[rawDay.index("<tr>"):rawDay.rfind("<tr>")]
-        daysTextClean.append((dayName, cleanText))
-        debugPrint(lineText(dayName))
-        debugPrint(cleanText)     
-    debugPrint(lineText("Pre-fix"))
-    # last one is a little messed up:
-    (lastDay, ldt) = daysTextClean[len(daysTextClean)-1]
-    daysTextClean[len(daysTextClean)-1] = (lastDay, ldt[:ldt.rfind("<tr>")])
-    for day in daysTextClean: # NOte they may not be exactly days. Last one isn't.
-        (dayName, cleanText) = day
-        debugPrint(lineText(dayName))
-        debugPrint(cleanText)        
-    """   
+"""
+dungeonRE = re.compile('<tr><td class="eventdate"><span class="brown">(?P<sMonth>\d{2})/(?P<sDay>\d{2}) (?P<sHour>\d{2}):(?P<sMin>\d{2})</span>') #<br>(?P<endDate>.*)
+dungeonRE = re.compile('<tr><td class="eventdate"><span class="brown">(?P<sDate>\d{2}/\d{2} \d{2}:\d{2})</span>') #<br>(?P<endDate>.*)
+
+allDungeons =  re.finditer(dungeonRE, text)
+    for dung in allDungeons:
+        debugPrint(dung.groups())
+        
+    #dungeonRE = re.compile('<tr><td class="eventdate"><span class="brown">(?P<sMonth>.*)</span><br>(?P<endDate>.*)
+"""
+# This may one day be more flexible, but probably not worth.
+"""
+daysTextRaw = text.split('<div class="dateseparator">') 
+daysTextClean = [] 
+for rawDay in daysTextRaw:
+    # Date Name, cleanText
+    dayName = rawDay[:rawDay.index("</div>")] # NOte: may be blank
+    cleanText = rawDay[rawDay.index("<tr>"):rawDay.rfind("<tr>")]
+    daysTextClean.append((dayName, cleanText))
+    debugPrint(lineText(dayName))
+    debugPrint(cleanText)     
+debugPrint(lineText("Pre-fix"))
+# last one is a little messed up:
+(lastDay, ldt) = daysTextClean[len(daysTextClean)-1]
+daysTextClean[len(daysTextClean)-1] = (lastDay, ldt[:ldt.rfind("<tr>")])
+for day in daysTextClean: # NOte they may not be exactly days. Last one isn't.
+    (dayName, cleanText) = day
+    debugPrint(lineText(dayName))
+    debugPrint(cleanText)        
+"""   
    
 
 

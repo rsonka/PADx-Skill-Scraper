@@ -1,0 +1,28 @@
+
+# Red
+2901
+
+
+# Blue
+2385
+222
+
+
+# Green
+2323
+651
+
+
+# Light
+1289
+3534
+
+
+# Dark
+813
+1627
+2194
+
+
+# only lines that begin with a number will be considered. Lines with # will be retained.
+# Monsters will be processed in order entered.
