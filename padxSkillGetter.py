@@ -418,7 +418,7 @@ def readMonsterNumFile(text):
     return (commentedNumbers, cardNums)
             
 def constructCardReportFile(commentedNumbers, cardNums, cardLines):
-    report = "Number\tName\tfarmableSkillUps\tNormal or Technical dungeons\tOther dungeons\n"
+    report = "Number\tName\tfarmableSkillUps\tNormal or Technical dungeons\tOther dungeons" + os.linesep
     lines = commentedNumbers.split(os.linesep)
     for line in lines:
         if line and line[0] == "#":
@@ -448,7 +448,7 @@ def readCardReportFile(text):
      
  
 def constructAvailableSkillupsFile(commentedNumbers, cardNums, cardLines):
-    report = "CardNum\tCardName\tDungeonsAvailable\n"
+    report = "CardNum\tCardName\tDungeonsAvailable" + os.linesep
     lines = commentedNumbers.split(os.linesep)
     for line in lines:
         if line and line[0] == "#":
