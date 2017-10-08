@@ -37,7 +37,7 @@ IMPORTANT NOTES
 1. the file PADskillGetterSettings.txt MUST be in the same directory as the program
  if you want to use the optional dungeon-excludes form the menu.
  
-2. If you do not have python, Windows users can run the program using padxSkillGetter.exe under the dist folder.
+2. If you do not have python, Windows users can run the program using padxSkillGetter.exe under the dist folder. You will need all of the build and dist folders to do so.
 
 3. I typically view the results by pasting into excel.
 
