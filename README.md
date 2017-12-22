@@ -85,7 +85,8 @@ Number	Name	farmableSkillUps	Normal or Technical dungeons	Other dungeons
 1336	Ganesha	Entrepreneur, Lex Luthor && Genius Scientist, Lex Luthor	.	Batman vs Superman Collab  
 ```
 
-Saving that to a string in Python and typing print myString.replace("\t", "\n") will split each thing up onto lines. E.g.:
+Saving that to a string in a Python interpreter and typing print 
+myString.replace("\t", "\n") will split each thing up onto lines. E.g.:
 
 ```
 >> myString = """Number	Name	farmableSkillUps	Normal or Technical dungeons	Other dungeons  
