@@ -38,6 +38,7 @@ PADx-Skill-Scraper is written in Python 2.7. It requires the following non-stand
 library packages: 
 * [bs4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 * [requests](https://pypi.python.org/pypi/requests)
+
 If you have pip, these are installable with py -2 -m pip install <packagename>.
 
 <h2>Usage</h2>
@@ -45,7 +46,7 @@ If you have pip, these are installable with py -2 -m pip install <packagename>.
 Typically, the programs menu system should be sufficient. The two main functions
 are listMySkillInfo(cardNumList, dungeonsToExclude) and
 checkForAvailableSkillups(normallyExcluded, alwaysInCoin, fullCardReportStr),
-which the menus will set up calls to. More information below:
+which the menus will set up calls to. More information on these below.
 
 <h3> listMySkillInfo(cardNumList, dungeonsToExclude) </h3>
 
@@ -60,24 +61,25 @@ usually view it in microsoft excel.
 
 Example use:
 
->\>\> listMySkillInfo([1330, 1336], dToE)
+'''\>\> listMySkillInfo([1330, 1336], dToE)'''
 
 (Program runs, outputting some debugging info so you know it's doing
 something...) Eventual output:
 
-Number	Name	farmableSkillUps	Normal or Technical dungeons	Other dungeons  
+'''Number	Name	farmableSkillUps	Normal or Technical dungeons	Other dungeons  
 1330	Krishna	Flame Insect Dragon, Flammesickle	.	Herme Descended!, Fire Insect Dragon, Wood Guardian Dragon  
-1336	Ganesha	Entrepreneur, Lex Luthor && Genius Scientist, Lex Luthor	.	Batman vs Superman Collab  
+1336	Ganesha	Entrepreneur, Lex Luthor && Genius Scientist, Lex Luthor	.	Batman vs Superman Collab  '''
 
 Saving that to a string in Python and typing print myString.replace("\t", "\n") will split each thing up onto lines. E.g.:
 
->\>\> myString = """Number	Name	farmableSkillUps	Normal or Technical dungeons	Other dungeons  
+'''\>\> myString = """Number	Name	farmableSkillUps	Normal or Technical dungeons	Other dungeons  
+
 1330	Krishna	Flame Insect Dragon, Flammesickle	.	Herme Descended!, Fire Insect Dragon, Wood Guardian Dragon  
 1336	Ganesha	Entrepreneur, Lex Luthor && Genius Scientist, Lex Luthor	.	Batman vs Superman Collab"""  
 
->\>\> print myString.replace("\n", '\n-----\n').replace("\t", "\n")
+\>\> print myString.replace("\n", '\n-----\n').replace("\t", "\n")
 
-Number  
+Number
 Name  
 farmableSkillUps  
 Normal or Technical dungeons  
@@ -93,7 +95,7 @@ Herme Descended!, Fire Insect Dragon, Wood Guardian Dragon
 Ganesha  
 Entrepreneur, Lex Luthor && Genius Scientist, Lex Luthor  
 .  
-Batman vs Superman Collab  
+Batman vs Superman Collab  '''
 
 <h3>checkForAvailableSkillups(normallyExcluded, alwaysInCoin, fullCardReportStr)</h3>
 
@@ -113,9 +115,9 @@ from the current "special" or "coin" dungeons, again tab-delimited.
 
 Example use: (remember "myString" from above?):
 
->\>\> checkForAvailableSkillups(dToE, alwaysInCoin, myString)
+'''\>\> checkForAvailableSkillups(dToE, alwaysInCoin, myString)
 
-CardNum CardName DungeonsAvailable 1330 Krishna Fire Insect Dragon
+CardNum CardName DungeonsAvailable 1330 Krishna Fire Insect Dragon'''
 
 [This was run 10/3/2017. Your results will vary with what dungeons are currently
 available!]
@@ -146,22 +148,17 @@ know. For example, if PADx starts categorizing technical dungeons as
 
 Smaller disclaimers:
 
---Does not handle Japanese characters well yet.
-
---Right now does not check if your monster changes skill on evolution. Assumes
+* Does not handle Japanese characters well yet.
+* Right now does not check if your monster changes skill on evolution. Assumes
 you want skillups for that skill.
-
---Only reports the name of the dungeon the monster drops from, not which
+*Only reports the name of the dungeon the monster drops from, not which
 specific level(s) of the dungeon it drops from.
-
---Only considers monsters "farmable" if they drop from a dungeon. Gungho collab
+*Only considers monsters "farmable" if they drop from a dungeon. Gungho collab
 PEM is not considered farmable here.
-
---Does NOT document monsters that evolve into monsters that skill up your
+* Does NOT document monsters that evolve into monsters that skill up your
 monsters. (This was problematic with padx, and you usually don't want to do that
 anyway, because it's miserably time-consuming.).
-
---Because of how padx uses template pages, program needs to know what page
+* Because of how padx uses template pages, program needs to know what page
 numbers are too high to be real: If pad ever gets over 100,000 monsters, the
 templateNumber variable needs to be made higher.
 
