@@ -41,7 +41,7 @@ library packages:
 
 If you have pip, these are installable with py -2 -m pip install <packagename>.
 
-<h2>Usage</h2>
+<h2>Usage Notes</h2>
 
 1. the file PADskillGetterSettings.txt MUST be in the same directory as the
 program if you want to use the optional dungeon-excludes form the menu. 
@@ -52,7 +52,7 @@ dist folders to do so.
 
 3. I typically view the results by pasting into excel.
 
-<h2> The two main functions </h2>
+<h2> Usage Notes: The two main functions </h2>
 The two main functions
 are listMySkillInfo(cardNumList, dungeonsToExclude) and
 checkForAvailableSkillups(normallyExcluded, alwaysInCoin, fullCardReportStr),
@@ -140,18 +140,13 @@ CardNum CardName DungeonsAvailable 1330 Krishna Fire Insect Dragon
 [This was run 10/3/2017. Your results will vary with what dungeons are currently
 available!]
 
-<h3> Other Usage Notes </h3>
-
 
 <h2>Disclaimers</h2>
 
 
+Big disclaimer: 
 
-DISCLAIMERS:
-
-big disclaimer: 
-
-This program is only as smart as the website it scrapes from,
+* This program is only as smart as the website it scrapes from,
 PADx. If PADx doesn't know, or formats it really weirdly, the program doesn't
 know. For example, if PADx starts categorizing technical dungeons as
 'multiplayer dungeons', that is where they will show up.
@@ -161,9 +156,9 @@ Smaller disclaimers:
 * Does not handle Japanese characters well yet.
 * Right now does not check if your monster changes skill on evolution. Assumes
 you want skillups for that skill.
-*Only reports the name of the dungeon the monster drops from, not which
+* Only reports the name of the dungeon the monster drops from, not which
 specific level(s) of the dungeon it drops from.
-*Only considers monsters "farmable" if they drop from a dungeon. Gungho collab
+* Only considers monsters "farmable" if they drop from a dungeon. Gungho collab
 PEM is not considered farmable here.
 * Does NOT document monsters that evolve into monsters that skill up your
 monsters. (This was problematic with padx, and you usually don't want to do that
