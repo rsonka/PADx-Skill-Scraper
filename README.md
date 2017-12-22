@@ -97,7 +97,8 @@ Herme Descended!, Fire Insect Dragon, Wood Guardian Dragon
 Ganesha  
 Entrepreneur, Lex Luthor && Genius Scientist, Lex Luthor  
 .  
-Batman vs Superman Collab  ```
+Batman vs Superman Collab  
+```
 
 <h3>checkForAvailableSkillups(normallyExcluded, alwaysInCoin, fullCardReportStr)</h3>
 
@@ -119,7 +120,8 @@ Example use: (remember "myString" from above?):
 
 ```>> checkForAvailableSkillups(dToE, alwaysInCoin, myString)
 
-CardNum CardName DungeonsAvailable 1330 Krishna Fire Insect Dragon```
+CardNum CardName DungeonsAvailable 1330 Krishna Fire Insect Dragon
+```
 
 [This was run 10/3/2017. Your results will vary with what dungeons are currently
 available!]
