@@ -61,18 +61,18 @@ usually view it in microsoft excel.
 
 Example use:
 
-'''\>\> listMySkillInfo([1330, 1336], dToE)'''
+```\>\> listMySkillInfo([1330, 1336], dToE)```
 
 (Program runs, outputting some debugging info so you know it's doing
 something...) Eventual output:
 
-'''Number	Name	farmableSkillUps	Normal or Technical dungeons	Other dungeons  
+```Number	Name	farmableSkillUps	Normal or Technical dungeons	Other dungeons  
 1330	Krishna	Flame Insect Dragon, Flammesickle	.	Herme Descended!, Fire Insect Dragon, Wood Guardian Dragon  
-1336	Ganesha	Entrepreneur, Lex Luthor && Genius Scientist, Lex Luthor	.	Batman vs Superman Collab  '''
+1336	Ganesha	Entrepreneur, Lex Luthor && Genius Scientist, Lex Luthor	.	Batman vs Superman Collab  ```
 
 Saving that to a string in Python and typing print myString.replace("\t", "\n") will split each thing up onto lines. E.g.:
 
-'''\>\> myString = """Number	Name	farmableSkillUps	Normal or Technical dungeons	Other dungeons  
+```\>\> myString = """Number	Name	farmableSkillUps	Normal or Technical dungeons	Other dungeons  
 
 1330	Krishna	Flame Insect Dragon, Flammesickle	.	Herme Descended!, Fire Insect Dragon, Wood Guardian Dragon  
 1336	Ganesha	Entrepreneur, Lex Luthor && Genius Scientist, Lex Luthor	.	Batman vs Superman Collab"""  
@@ -95,7 +95,7 @@ Herme Descended!, Fire Insect Dragon, Wood Guardian Dragon
 Ganesha  
 Entrepreneur, Lex Luthor && Genius Scientist, Lex Luthor  
 .  
-Batman vs Superman Collab  '''
+Batman vs Superman Collab  ```
 
 <h3>checkForAvailableSkillups(normallyExcluded, alwaysInCoin, fullCardReportStr)</h3>
 
