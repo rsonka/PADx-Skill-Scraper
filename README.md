@@ -43,7 +43,17 @@ If you have pip, these are installable with py -2 -m pip install <packagename>.
 
 <h2>Usage</h2>
 
-Typically, the programs menu system should be sufficient. The two main functions
+1. the file PADskillGetterSettings.txt MUST be in the same directory as the
+program if you want to use the optional dungeon-excludes form the menu. 
+
+2. If you do not have python, Windows users can run the program using
+padxSkillGetter.exe under the dist folder. You will need all of the build and
+dist folders to do so.
+
+3. I typically view the results by pasting into excel.
+
+<h2> The two main functions </h2>
+The two main functions
 are listMySkillInfo(cardNumList, dungeonsToExclude) and
 checkForAvailableSkillups(normallyExcluded, alwaysInCoin, fullCardReportStr),
 which the menus will set up calls to. More information on these below.
@@ -130,20 +140,12 @@ CardNum CardName DungeonsAvailable 1330 Krishna Fire Insect Dragon
 [This was run 10/3/2017. Your results will vary with what dungeons are currently
 available!]
 
+<h3> Other Usage Notes </h3>
 
 
 <h2>Disclaimers</h2>
 
-IMPORTANT NOTES
 
-1. the file PADskillGetterSettings.txt MUST be in the same directory as the
-program if you want to use the optional dungeon-excludes form the menu. 
-
-2. If you do not have python, Windows users can run the program using
-padxSkillGetter.exe under the dist folder. You will need all of the build and
-dist folders to do so.
-
-3. I typically view the results by pasting into excel.
 
 DISCLAIMERS:
 
