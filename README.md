@@ -61,12 +61,15 @@ usually view it in microsoft excel.
 
 Example use:
 
-```>> listMySkillInfo([1330, 1336], dToE)```
+```
+>> listMySkillInfo([1330, 1336], dToE)
+```
 
 (Program runs, outputting some debugging info so you know it's doing
 something...) Eventual output:
 
-```Number	Name	farmableSkillUps	Normal or Technical dungeons	Other dungeons  
+```
+Number	Name	farmableSkillUps	Normal or Technical dungeons	Other dungeons  
 1330	Krishna	Flame Insect Dragon, Flammesickle	.	Herme Descended!, Fire Insect Dragon, Wood Guardian Dragon  
 1336	Ganesha	Entrepreneur, Lex Luthor && Genius Scientist, Lex Luthor	.	Batman vs Superman Collab  
 ```
@@ -118,7 +121,8 @@ from the current "special" or "coin" dungeons, again tab-delimited.
 
 Example use: (remember "myString" from above?):
 
-```>> checkForAvailableSkillups(dToE, alwaysInCoin, myString)
+```
+>> checkForAvailableSkillups(dToE, alwaysInCoin, myString)
 
 CardNum CardName DungeonsAvailable 1330 Krishna Fire Insect Dragon
 ```
