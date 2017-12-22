@@ -164,8 +164,8 @@ PEM is not considered farmable here.
 * Does NOT document monsters that evolve into monsters that skill up your
 monsters. (This was problematic with padx, and you usually don't want to do that
 anyway, because it's miserably time-consuming.).
-* Because of how padx uses template pages, program needs to know what page
-numbers are too high to be real: If pad ever gets over 100,000 monsters, the
+* Because of how padx uses template pages, the program needs to know what page
+numbers are too high to be real. If pad ever gets over 100,000 monsters, the
 templateNumber variable needs to be made higher.
 
 
