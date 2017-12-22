@@ -68,7 +68,7 @@ something...) Eventual output:
 
 ```Number	Name	farmableSkillUps	Normal or Technical dungeons	Other dungeons  
 1330	Krishna	Flame Insect Dragon, Flammesickle	.	Herme Descended!, Fire Insect Dragon, Wood Guardian Dragon  
-1336	Ganesha	Entrepreneur, Lex Luthor && Genius Scientist, Lex Luthor	.	Batman vs Superman Collab  ```
+1336	Ganesha	Entrepreneur, Lex Luthor && Genius Scientist, Lex Luthor	.	Batman vs Superman Collab```
 
 Saving that to a string in Python and typing print myString.replace("\t", "\n") will split each thing up onto lines. E.g.:
 
